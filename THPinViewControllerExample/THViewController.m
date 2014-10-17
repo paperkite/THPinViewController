@@ -177,6 +177,7 @@ static const NSUInteger THNumberOfPinEntries = 6;
 - (void)pinViewController:(THPinViewController *)pinViewController createdPin:(NSString *)pin
 {
     self.correctPin = pin;
+    
 }
 
 - (BOOL)userCanRetryInPinViewController:(THPinViewController *)pinViewController

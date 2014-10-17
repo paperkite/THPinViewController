@@ -9,6 +9,8 @@
 #import "THPinViewController.h"
 #import "UIImage+ImageEffects.h"
 
+#import <LocalAuthentication/LocalAuthentication.h>
+
 @interface THPinViewController () <THPinViewDelegate>
 
 @property (nonatomic, strong) THPinView *pinView;
@@ -75,6 +77,42 @@
                                                           relatedBy:NSLayoutRelationEqual
                                                              toItem:self.view attribute:NSLayoutAttributeCenterY
                                                          multiplier:1.0f constant:pinViewYOffset]];
+    
+    [self authenticteWithTouchID];
+}
+
+#pragma mark - Authentication
+
+- (void)authenticteWithTouchID
+{
+    if (self.viewControllerType != THPinViewControllerTypeCreatePin) {
+        
+        LAContext *context = [[LAContext alloc] init]; // Create the authentication context
+        
+        NSError *error = nil;
+        
+        if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error]) {
+            
+            [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:@"Are you the device owner?" reply:^(BOOL success, NSError *authenticationError) {
+                
+                if (authenticationError) {
+                    // Bad authentication
+                }
+                
+                if (success) {
+                    // You win! Let's call delegates
+                    [self correctPinWasEnteredInPinView:self.pinView];
+                    
+                } else {
+                    // You're not the owner!? get outta here.
+                }
+                
+            }];
+            
+        } else { // Device does not support touch ID
+            
+        }
+    }
 }
 
 #pragma mark - Properties
