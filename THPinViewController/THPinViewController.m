@@ -81,7 +81,11 @@
                                                           relatedBy:NSLayoutRelationEqual
                                                              toItem:self.view attribute:NSLayoutAttributeCenterY
                                                          multiplier:1.0f constant:pinViewYOffset]];
-    
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
     [self authenticteWithTouchID];
 }
 
