@@ -46,5 +46,6 @@ typedef NS_ENUM(NSInteger, THPinViewControllerType) {
 - (instancetype)initWithDelegate:(id<THPinViewDelegate>)delegate NS_DESIGNATED_INITIALIZER;
 
 - (void)updateBottomButton;
+- (void)resetInput;
 
 @end
