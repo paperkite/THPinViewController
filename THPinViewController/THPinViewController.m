@@ -329,6 +329,12 @@
                 }
             }];
             
+        } else {
+            
+            if ([self.delegate respondsToSelector:@selector(pinViewControllerWontDismissAfterPinEntryWasCancelled:)]) {
+                [self.delegate pinViewControllerWontDismissAfterPinEntryWasCancelled:self];
+            }
+            
         }
     }
 }

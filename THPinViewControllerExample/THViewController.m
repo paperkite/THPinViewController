@@ -186,7 +186,6 @@ static const NSUInteger THNumberOfPinEntries = 6;
 - (void)pinViewController:(THPinViewController *)pinViewController createdPin:(NSString *)pin
 {
     self.correctPin = pin;
-    
 }
 
 - (BOOL)userCanRetryInPinViewController:(THPinViewController *)pinViewController
@@ -214,6 +213,13 @@ static const NSUInteger THNumberOfPinEntries = 6;
 - (BOOL)pinViewControllerShouldDissmissAfterPinEntryWasCancelled:(THPinViewController *)pinViewController
 {
     return YES;
+}
+
+- (void)pinViewControllerWontDismissAfterPinEntryWasCancelled:(THPinViewController *)pinViewController
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No." message:@"I refuse to dissmiss the PIN screen" delegate:nil cancelButtonTitle:@"Fine. Didn't want to anyway" otherButtonTitles: nil];
+    
+    [alertView show];
 }
 
 - (void)pinViewControllerWillDismissAfterPinEntryWasSuccessful:(THPinViewController *)pinViewController
