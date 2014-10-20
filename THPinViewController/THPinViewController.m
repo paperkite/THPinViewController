@@ -13,6 +13,8 @@
 
 @interface THPinViewController () <THPinViewDelegate>
 
+@property (nonatomic, strong) LAContext *authenticationContext;
+
 @property (nonatomic, strong) THPinView *pinView;
 @property (nonatomic, strong) UIView *blurView;
 @property (nonatomic, assign) NSArray *blurViewContraints;
@@ -103,20 +105,20 @@
             self.touchIDPromptTitle = @"Use Touch ID to enter PIN";
         }
         
-        LAContext *context = [[LAContext alloc] init]; // Create the authentication context
+        self.authenticationContext = [[LAContext alloc] init]; // Create the authentication context
         
         NSError *error = nil;
         
-        if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error]) {
+        if ([self.authenticationContext canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error]) {
             
             // User has not set up touch ID.
             if (error.code == LAErrorTouchIDNotEnrolled || error.code == LAErrorPasscodeNotSet) {
                 return;
             }
             
-            context.localizedFallbackTitle = self.touchIDFallbackTitle;
+            self.authenticationContext.localizedFallbackTitle = self.touchIDFallbackTitle;
             
-            [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:self.touchIDPromptTitle reply:^(BOOL success, NSError *authenticationError) {
+            [self.authenticationContext evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:self.touchIDPromptTitle reply:^(BOOL success, NSError *authenticationError) {
                 
                 if (success) {
 
@@ -140,6 +142,11 @@
             
         }
     }
+}
+
+- (void)clearAllTouchIDValues
+{
+    self.authenticationContext = nil;
 }
 
 #pragma mark - Properties
