@@ -85,7 +85,15 @@
 
 - (void)authenticteWithTouchID
 {
-    if (self.viewControllerType != THPinViewControllerTypeCreatePin) {
+    if (self.viewControllerType != THPinViewControllerTypeCreatePin && self.shouldUseTouchID) {
+        
+        if (!self.touchIDFallbackTitle) {
+            self.touchIDFallbackTitle = @"Enter PIN";
+        }
+        
+        if (!self.touchIDPromptTitle) {
+            self.touchIDPromptTitle = @"Use Touch ID to enter PIN";
+        }
         
         LAContext *context = [[LAContext alloc] init]; // Create the authentication context
         
@@ -93,18 +101,29 @@
         
         if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error]) {
             
-            [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:@"Are you the device owner?" reply:^(BOOL success, NSError *authenticationError) {
-                
-                if (authenticationError) {
-                    // Bad authentication
-                }
+            // User has not set up touch ID.
+            if (error.code == LAErrorTouchIDNotEnrolled || error.code == LAErrorPasscodeNotSet) {
+                return;
+            }
+            
+            context.localizedFallbackTitle = self.touchIDFallbackTitle;
+            
+            [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:self.touchIDPromptTitle reply:^(BOOL success, NSError *authenticationError) {
                 
                 if (success) {
+
                     // You win! Let's call delegates
                     [self correctPinWasEnteredInPinView:self.pinView];
                     
-                } else {
-                    // You're not the owner!? get outta here.
+                } else { // Something went wrong.
+                    
+                    switch (error.code) {
+                        case LAErrorAuthenticationFailed:
+                            [self incorrectPinWasEnteredInPinView:self.pinView];
+                            break;
+                        default:
+                            break;
+                    }
                 }
                 
             }];

@@ -43,6 +43,12 @@ static const NSInteger THPinViewControllerContentViewTag = 14742;
 @property (nonatomic, copy) NSString *promptChooseTitle;
 @property (nonatomic, copy) NSString *promptVerifyTitle;
 @property (nonatomic, strong) UIColor *promptColor;
+
+@property (nonatomic) BOOL shouldUseTouchID;
+
+@property (nonatomic, strong) NSString *touchIDPromptTitle;
+@property (nonatomic, strong) NSString *touchIDFallbackTitle;
+
 @property (nonatomic, assign) BOOL hideLetters; // hides the letters on the number buttons
 @property (nonatomic, assign) BOOL disableCancel; // hides the cancel button
 @property (nonatomic, assign) THPinViewControllerType viewControllerType; // create or validate pin?
