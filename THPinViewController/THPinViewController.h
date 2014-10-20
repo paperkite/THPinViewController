@@ -22,6 +22,8 @@ static const NSInteger THPinViewControllerContentViewTag = 14742;
 - (BOOL)pinViewController:(THPinViewController *)pinViewController isPinValid:(NSString *)pin;
 - (BOOL)userCanRetryInPinViewController:(THPinViewController *)pinViewController;
 
+- (BOOL)pinViewControllerShouldDissmissAfterPinEntryWasCancelled:(THPinViewController *)pinViewController;
+
 @optional
 - (void)pinViewController:(THPinViewController *)pinViewController createdPin:(NSString *)pin;
 - (void)incorrectPinEnteredInPinViewController:(THPinViewController *)pinViewController;

@@ -211,6 +211,11 @@ static const NSUInteger THNumberOfPinEntries = 6;
 
 }
 
+- (BOOL)pinViewControllerShouldDissmissAfterPinEntryWasCancelled:(THPinViewController *)pinViewController
+{
+    return YES;
+}
+
 - (void)pinViewControllerWillDismissAfterPinEntryWasSuccessful:(THPinViewController *)pinViewController
 {
     self.locked = NO;

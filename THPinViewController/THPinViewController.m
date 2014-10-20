@@ -316,14 +316,21 @@
 
 - (void)cancelButtonTappedInPinView:(THPinView *)pinView
 {
-    if ([self.delegate respondsToSelector:@selector(pinViewControllerWillDismissAfterPinEntryWasCancelled:)]) {
-        [self.delegate pinViewControllerWillDismissAfterPinEntryWasCancelled:self];
-    }
-    [self dismissViewControllerAnimated:YES completion:^{
-        if ([self.delegate respondsToSelector:@selector(pinViewControllerDidDismissAfterPinEntryWasCancelled:)]) {
-            [self.delegate pinViewControllerDidDismissAfterPinEntryWasCancelled:self];
+    if ([self.delegate respondsToSelector:@selector(pinViewControllerShouldDissmissAfterPinEntryWasCancelled:)]) {
+        
+        if ([self.delegate pinViewControllerShouldDissmissAfterPinEntryWasCancelled:self]) {
+    
+            if ([self.delegate respondsToSelector:@selector(pinViewControllerWillDismissAfterPinEntryWasCancelled:)]) {
+                [self.delegate pinViewControllerWillDismissAfterPinEntryWasCancelled:self];
+            }
+            [self dismissViewControllerAnimated:YES completion:^{
+                if ([self.delegate respondsToSelector:@selector(pinViewControllerDidDismissAfterPinEntryWasCancelled:)]) {
+                    [self.delegate pinViewControllerDidDismissAfterPinEntryWasCancelled:self];
+                }
+            }];
+            
         }
-    }];
+    }
 }
 
 - (void)correctPinWasEnteredInPinView:(THPinView *)pinView
