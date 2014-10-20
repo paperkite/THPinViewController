@@ -44,8 +44,10 @@ static const NSInteger THPinViewControllerContentViewTag = 14742;
 @property (nonatomic, copy) NSString *promptVerifyTitle;
 @property (nonatomic, strong) UIColor *promptColor;
 
-@property (nonatomic) BOOL shouldUseTouchID;
+@property (nonatomic, strong) NSString *cancelButtonTitle;
+@property (nonatomic, strong) NSString *deleteButtonTitle;
 
+@property (nonatomic) BOOL shouldUseTouchID;
 @property (nonatomic, strong) NSString *touchIDPromptTitle;
 @property (nonatomic, strong) NSString *touchIDFallbackTitle;
 

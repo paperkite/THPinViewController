@@ -35,10 +35,16 @@ typedef NS_ENUM(NSInteger, THPinViewControllerType) {
 @property (nonatomic, copy) NSString *promptChooseTitle;
 @property (nonatomic, copy) NSString *promptVerifyTitle;
 @property (nonatomic, strong) UIColor *promptColor;
+
+@property (nonatomic, strong) NSString *cancelButtonTitle;
+@property (nonatomic, strong) NSString *deleteButtonTitle;
+
 @property (nonatomic, assign) BOOL hideLetters;
 @property (nonatomic, assign) BOOL disableCancel;
 @property (nonatomic, assign) THPinViewControllerType viewControllerType;
 
 - (instancetype)initWithDelegate:(id<THPinViewDelegate>)delegate NS_DESIGNATED_INITIALIZER;
+
+- (void)updateBottomButton;
 
 @end

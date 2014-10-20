@@ -130,6 +130,9 @@ static const NSUInteger THNumberOfPinEntries = 6;
     pinViewController.promptColor = darkBlueColor;
     pinViewController.view.tintColor = darkBlueColor;
     
+    pinViewController.cancelButtonTitle = @"Forgot Password";
+    pinViewController.deleteButtonTitle = @"Delete";
+    
     // for a solid background color, use this:
     pinViewController.backgroundColor = [UIColor whiteColor];
     

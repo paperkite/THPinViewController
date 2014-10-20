@@ -32,6 +32,7 @@
         _promptChooseTitle = NSLocalizedStringFromTable(@"prompt_choose_title", @"THPinViewController", nil);
         _promptVerifyTitle = NSLocalizedStringFromTable(@"prompt_verify_title", @"THPinViewController", nil);
         _viewControllerType = THPinViewControllerTypeStandard;
+        _pinView = [[THPinView alloc] initWithDelegate:self];
     }
     return self;
 }
@@ -47,14 +48,17 @@
         self.view.backgroundColor = self.backgroundColor;
     }
     
-    self.pinView = [[THPinView alloc] initWithDelegate:self];
+    
     self.pinView.backgroundColor = self.view.backgroundColor;
     self.pinView.promptTitle = self.promptTitle;
+    
     self.pinView.promptChooseTitle = self.promptChooseTitle;
     self.pinView.promptVerifyTitle = self.promptVerifyTitle;
+    
     self.pinView.promptColor = self.promptColor;
     self.pinView.hideLetters = self.hideLetters;
     self.pinView.disableCancel = self.disableCancel;
+    
     self.pinView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:self.pinView];
     // center pin view
@@ -135,6 +139,22 @@
 }
 
 #pragma mark - Properties
+
+- (void)setCancelButtonTitle:(NSString *)cancelButtonTitle
+{
+    if (self.pinView) {
+        self.pinView.cancelButtonTitle = cancelButtonTitle;
+        [self.pinView updateBottomButton];
+    }
+}
+
+- (void)setDeleteButtonTitle:(NSString *)deleteButtonTitle
+{
+    if (self.pinView) {
+        self.pinView.deleteButtonTitle = deleteButtonTitle;
+        [self.pinView updateBottomButton];
+    }
+}
 
 - (void)setBackgroundColor:(UIColor *)backgroundColor
 {
