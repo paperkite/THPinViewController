@@ -16,6 +16,7 @@
 
 @property (nonatomic, strong) UILabel *numberLabel;
 @property (nonatomic, strong) UILabel *lettersLabel;
+@property (nonatomic, strong) UIImageView *iconImageView;
 
 @property (nonatomic, strong) UIColor *backgroundColorBackup;
 
@@ -23,9 +24,17 @@
 
 @implementation THPinNumButton
 
-- (instancetype)initWithNumber:(NSUInteger)number letters:(NSString *)letters
+- (instancetype)init
 {
     self = [super init];
+    if (self)
+    {}
+    return self;
+}
+
+- (instancetype)initWithNumber:(NSUInteger)number letters:(NSString *)letters
+{
+    self = [self init];
     if (self)
     {
         _number = number;
@@ -108,11 +117,122 @@
     return self;
 }
 
+- (instancetype)initWithText:(NSString *)text
+{
+    self = [self init];
+    if (self)
+    {
+        _letters = text;
+        
+        self.layer.cornerRadius = [[self class] diameter] / 2.0f;
+        self.layer.borderWidth = 1.0f;
+        
+        UIView *contentView = [[UIView alloc] init];
+        contentView.translatesAutoresizingMaskIntoConstraints = NO;
+        contentView.userInteractionEnabled = NO;
+        [self addSubview:contentView];
+        
+        _lettersLabel = [[UILabel alloc] init];
+        _lettersLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        _lettersLabel.text = text;
+        _lettersLabel.textAlignment = NSTextAlignmentCenter;
+        _lettersLabel.font = [UIFont boldSystemFontOfSize:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 11.0f : 9.0f];
+        _lettersLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        _lettersLabel.numberOfLines = 0;
+
+        [contentView addSubview:_lettersLabel];
+        [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[lettersLabel]|" options:0
+                                                                            metrics:nil
+                                                                              views:@{ @"lettersLabel" : _lettersLabel }]];
+
+        CGSize lettersSize = [_lettersLabel.text sizeWithAttributes:@{ NSFontAttributeName : _lettersLabel.font }];
+        CGFloat contentViewHeight = ceil(lettersSize.height);
+
+        // pin letter label to bottom
+        [contentView addConstraint:[NSLayoutConstraint constraintWithItem:_lettersLabel attribute:NSLayoutAttributeCenterY
+                                                                relatedBy:NSLayoutRelationEqual
+                                                                   toItem:contentView attribute:NSLayoutAttributeCenterY
+                                                               multiplier:1.0f constant:0.0f]];
+    
+        
+        // set contentView height
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeHeight
+                                                         relatedBy:NSLayoutRelationEqual toItem:nil attribute:0
+                                                        multiplier:0.0f constant:contentViewHeight]];
+        // center contentView horizontally
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeCenterX
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:self attribute:NSLayoutAttributeCenterX
+                                                        multiplier:1.0f constant:0.0f]];
+        // center contentView vertically
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeCenterY
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:self attribute:NSLayoutAttributeCenterY
+                                                        multiplier:1.0f constant:0.0f]];
+        [self tintColorDidChange];
+    }
+    
+    return self;
+}
+
+- (instancetype)initWithImage:(UIImage *)image
+{
+    self = [self init];
+    if (self)
+    {
+        
+        self.layer.cornerRadius = [[self class] diameter] / 2.0f;
+        self.layer.borderWidth = 1.0f;
+        
+        UIView *contentView = [[UIView alloc] init];
+        contentView.translatesAutoresizingMaskIntoConstraints = NO;
+        contentView.userInteractionEnabled = NO;
+        [self addSubview:contentView];
+        
+        _iconImageView = [[UIImageView alloc] initWithImage:image];
+        _iconImageView.image = [_iconImageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        _iconImageView.tintColor = self.tintColor;
+        _iconImageView.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        [contentView addSubview:_iconImageView];
+        [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[iconImageView]|" options:0
+                                                                            metrics:nil
+                                                                              views:@{ @"iconImageView" : _iconImageView }]];
+        
+        CGFloat contentViewHeight = image.size.height;
+        
+        // pin letter label to bottom
+        [contentView addConstraint:[NSLayoutConstraint constraintWithItem:_iconImageView attribute:NSLayoutAttributeCenterY
+                                                                relatedBy:NSLayoutRelationEqual
+                                                                   toItem:contentView attribute:NSLayoutAttributeCenterY
+                                                               multiplier:1.0f constant:0.0f]];
+        
+        // set contentView height
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeHeight
+                                                         relatedBy:NSLayoutRelationEqual toItem:nil attribute:0
+                                                        multiplier:0.0f constant:contentViewHeight]];
+        // center contentView horizontally
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeCenterX
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:self attribute:NSLayoutAttributeCenterX
+                                                        multiplier:1.0f constant:0.0f]];
+        // center contentView vertically
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeCenterY
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:self attribute:NSLayoutAttributeCenterY
+                                                        multiplier:1.0f constant:0.0f]];
+        [self tintColorDidChange];
+    }
+    
+    return self;
+}
+
 - (void)tintColorDidChange
 {
     self.layer.borderColor = [self.tintColor CGColor];
     self.numberLabel.textColor = self.tintColor;
     self.lettersLabel.textColor = self.tintColor;
+    self.iconImageView.tintColor = self.tintColor;
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -124,6 +244,7 @@
                           [self.class averageContentColor] : self.backgroundColorBackup);
     self.numberLabel.textColor = textColor;
     self.lettersLabel.textColor = textColor;
+    self.iconImageView.tintColor = textColor;
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
@@ -146,6 +267,7 @@
                      } completion:^(BOOL finished) {
                          self.numberLabel.textColor = self.tintColor;
                          self.lettersLabel.textColor = self.tintColor;
+                         self.iconImageView.tintColor = self.tintColor;
                      }];
 }
 

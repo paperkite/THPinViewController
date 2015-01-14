@@ -13,30 +13,33 @@
 
 @property (nonatomic, assign) CGFloat hPadding;
 @property (nonatomic, assign) CGFloat vPadding;
+@property (nonatomic, assign) THPinNumPadType numPadType;
 
 @end
 
 @implementation THPinNumPadView
 
-- (instancetype)initWithDelegate:(id<THPinNumPadViewDelegate>)delegate
-{
-    self = [self init];
-    if (self)
-    {
-        _delegate = delegate;
-    }
-    return self;
-}
-
-- (instancetype)init
+- (instancetype)initWithType:(THPinNumPadType)numPadType
 {
     self = [super init];
     if (self)
     {
+        _numPadType = numPadType;
+
         _hPadding = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 24.0f : 20.0f;
         _vPadding = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 19.0f : 13.0f;
         
         [self setupViews];
+    }
+    return self;
+}
+
+- (instancetype)initWithDelegate:(id<THPinNumPadViewDelegate>)delegate andWithType:(THPinNumPadType)numPadType
+{
+    self = [self initWithType:numPadType];
+    if (self)
+    {
+        _delegate = delegate;
     }
     return self;
 }
@@ -71,31 +74,51 @@
         
         for (NSUInteger col = 0; col < 3; col++)
         {
-            if (row == 3 && col != 1) {
+            if (row == 3 && col != 1  && self.numPadType == THPinNumPadTypeStandard) {
                 // only one button on last row
+                // if default design
                 continue;
             }
             
+            NSString *letters = [self lettersForRow:row column:col];
             NSUInteger number = (row < 3) ? row * 3 + col + 1 : 0;
-            THPinNumButton *button = [[THPinNumButton alloc] initWithNumber:number
-                                                                    letters:[self lettersForRow:row column:col]];
+
+            THPinNumButton *button = [[THPinNumButton alloc] initWithNumber:number letters:letters];
+            [button addTarget:self action:@selector(numberButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+
+            // forgot pin
+            if (row == 3 && col == 0 && self.numPadType == THPinNumPadTypeCustom) {
+                button = [[THPinNumButton alloc] initWithText:@"Forgot\nPin?"];
+                [button addTarget:self action:@selector(cancelButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+            }
+            
+            // delete
+            if (row == 3 && col == 2 && self.numPadType == THPinNumPadTypeCustom) {
+                button = [[THPinNumButton alloc] initWithImage:[UIImage imageNamed:@"delete_icon"]];
+                [button addTarget:self action:@selector(deleteButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+            }
+            
+            
             button.translatesAutoresizingMaskIntoConstraints = NO;
             button.backgroundColor = self.backgroundColor;
-            [button addTarget:self action:@selector(numberButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
             [rowView addSubview:button];
-            
+
             NSString *buttonName = [NSString stringWithFormat:@"button%lu%lu", (unsigned long)row, (unsigned long)col];
             [rowView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|[%@]|", buttonName]
                                                                             options:0 metrics:nil views:@{ buttonName : button }]];
             
-            if (row < 3) {
+            
+            if (self.numPadType == THPinNumPadTypeCustom || (row < 3 && self.numPadType == THPinNumPadTypeStandard)) {
                 if ([buttonViews count] > 0) {
                     [hFormat appendString:@"-(hPadding)-"];
                 }
                 [hFormat appendFormat:@"[%@]", buttonName];
             } else {
+
                 [hFormat appendFormat:@"-[%@]-", buttonName];
+
             }
+            
             buttonViews[buttonName] = button;
         }
         
@@ -181,6 +204,18 @@
     }
     _hideLetters = hideLetters;
     [self setupViews];
+}
+
+#pragma - Actions
+
+- (void)cancelButtonTapped:(id)sender
+{
+    [self.delegate cancelTappedFor:self];
+}
+
+- (void)deleteButtonTapped:(id)sender
+{
+    [self.delegate deleteTappedFor:self];
 }
 
 - (void)numberButtonTapped:(id)sender

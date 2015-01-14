@@ -10,10 +10,19 @@
 
 @class THPinNumPadView;
 
+typedef NS_ENUM(NSInteger, THPinNumPadType) {
+    THPinNumPadTypeStandard,
+    THPinNumPadTypeCustom
+};
+
 @protocol THPinNumPadViewDelegate <NSObject>
 
 @required
 - (void)pinNumPadView:(THPinNumPadView *)pinNumPadView numberTapped:(NSUInteger)number;
+
+@optional
+- (void)deleteTappedFor:(THPinNumPadView *)pinNumPadView;
+- (void)cancelTappedFor:(THPinNumPadView *)pinNumPadView;
 
 @end
 
@@ -22,6 +31,6 @@
 @property (nonatomic, weak) id<THPinNumPadViewDelegate> delegate;
 @property (nonatomic, assign) BOOL hideLetters;
 
-- (instancetype)initWithDelegate:(id<THPinNumPadViewDelegate>)delegate;
+- (instancetype)initWithDelegate:(id<THPinNumPadViewDelegate>)delegate andWithType:(THPinNumPadType)numPadType;
 
 @end

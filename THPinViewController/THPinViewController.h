@@ -9,6 +9,9 @@
 @import UIKit;
 #import "THPinViewControllerMacros.h"
 #import "THPinView.h"
+#import "THPinNumPadView.h"
+
+
 
 @class THPinViewController;
 
@@ -61,7 +64,7 @@ static const NSInteger THPinViewControllerContentViewTag = 14742;
 @property (nonatomic, assign) BOOL disableCancel; // hides the cancel button
 @property (nonatomic, assign) THPinViewControllerType viewControllerType; // create or validate pin?
 
-- (instancetype)initWithDelegate:(id<THPinViewControllerDelegate>)delegate NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithDelegate:(id<THPinViewControllerDelegate>)delegate andWithType:(THPinNumPadType)numPadType NS_DESIGNATED_INITIALIZER;
 
 - (void)clearAllTouchIDValues;
 - (void)resetPinView;

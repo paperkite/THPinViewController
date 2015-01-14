@@ -8,6 +8,7 @@
 
 @import UIKit;
 #import "THPinViewControllerMacros.h"
+#import "THPinNumPadView.h"
 
 @class THPinView;
 
@@ -43,7 +44,7 @@ typedef NS_ENUM(NSInteger, THPinViewControllerType) {
 @property (nonatomic, assign) BOOL disableCancel;
 @property (nonatomic, assign) THPinViewControllerType viewControllerType;
 
-- (instancetype)initWithDelegate:(id<THPinViewDelegate>)delegate NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithDelegate:(id<THPinViewDelegate>)delegate andWithType:(THPinNumPadType)numPadType NS_DESIGNATED_INITIALIZER;
 
 - (void)updateBottomButton;
 - (void)resetInput;

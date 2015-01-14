@@ -29,7 +29,7 @@ static const NSUInteger THNumberOfPinEntries = 6;
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor colorWithRed:0.361f green:0.404f blue:0.671f alpha:1.0f];
-    
+
     self.correctPin = @"1234";
     
     self.secretContentView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"confidential"]];
@@ -118,7 +118,7 @@ static const NSUInteger THNumberOfPinEntries = 6;
 
 - (void)showPinViewAnimated:(BOOL)animated shouldChangePin:(BOOL)change
 {
-    THPinViewController *pinViewController = [[THPinViewController alloc] initWithDelegate:self];
+    THPinViewController *pinViewController = [[THPinViewController alloc] initWithDelegate:self andWithType:THPinNumPadTypeStandard];
 
     // Touch ID Parameters
     pinViewController.shouldUseTouchID = YES;

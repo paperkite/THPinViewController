@@ -14,7 +14,10 @@
 @property (nonatomic, readonly, assign) NSUInteger number;
 @property (nonatomic, readonly, copy) NSString *letters;
 
-- (instancetype)initWithNumber:(NSUInteger)number letters:(NSString *)letters NS_DESIGNATED_INITIALIZER;
+- (instancetype)init NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithNumber:(NSUInteger)number letters:(NSString *)letters;
+- (instancetype)initWithText:(NSString *)text;
+- (instancetype)initWithImage:(UIImage *)image;
 
 + (CGFloat)diameter;
 

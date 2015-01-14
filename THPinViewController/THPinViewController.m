@@ -23,7 +23,7 @@
 
 @implementation THPinViewController
 
-- (instancetype)initWithDelegate:(id<THPinViewControllerDelegate>)delegate
+- (instancetype)initWithDelegate:(id<THPinViewControllerDelegate>)delegate andWithType:(THPinNumPadType)numPadType
 {
     self = [super init];
     if (self) {
@@ -34,7 +34,7 @@
         _promptChooseTitle = NSLocalizedStringFromTable(@"prompt_choose_title", @"THPinViewController", nil);
         _promptVerifyTitle = NSLocalizedStringFromTable(@"prompt_verify_title", @"THPinViewController", nil);
         _viewControllerType = THPinViewControllerTypeStandard;
-        _pinView = [[THPinView alloc] initWithDelegate:self];
+        _pinView = [[THPinView alloc] initWithDelegate:self andWithType:numPadType];
     }
     return self;
 }
@@ -49,7 +49,6 @@
     } else {
         self.view.backgroundColor = self.backgroundColor;
     }
-    
     
     self.pinView.backgroundColor = self.view.backgroundColor;
     self.pinView.promptTitle = self.promptTitle;

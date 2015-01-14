@@ -23,6 +23,7 @@ typedef void (^THPinAnimationCompletionBlock)(void);
 @property (nonatomic, assign) CGFloat paddingBetweenPromptLabelAndInputCircles;
 @property (nonatomic, assign) CGFloat paddingBetweenInputCirclesAndNumPad;
 @property (nonatomic, assign) CGFloat paddingBetweenNumPadAndBottomButton;
+@property (nonatomic, assign) THPinNumPadType numPadType;
 
 @property (nonatomic, strong) NSMutableString *input;
 
@@ -32,13 +33,14 @@ typedef void (^THPinAnimationCompletionBlock)(void);
 
 @implementation THPinView
 
-- (instancetype)initWithDelegate:(id<THPinViewDelegate>)delegate
+- (instancetype)initWithDelegate:(id<THPinViewDelegate>)delegate andWithType:(THPinNumPadType)numPadType
 {
     self = [super init];
     if (self)
     {
         _delegate = delegate;
         _input = [NSMutableString string];
+        _numPadType = numPadType;
         
         _promptLabel = [[UILabel alloc] init];
         _promptLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -58,7 +60,7 @@ typedef void (^THPinAnimationCompletionBlock)(void);
                                                             toItem:self attribute:NSLayoutAttributeCenterX
                                                         multiplier:1.0f constant:0.0f]];
         
-        _numPadView = [[THPinNumPadView alloc] initWithDelegate:self];
+        _numPadView = [[THPinNumPadView alloc] initWithDelegate:self andWithType:_numPadType];
         _numPadView.translatesAutoresizingMaskIntoConstraints = NO;
         _numPadView.backgroundColor = self.backgroundColor;
         [self addSubview:_numPadView];
@@ -68,6 +70,9 @@ typedef void (^THPinAnimationCompletionBlock)(void);
                                                         multiplier:1.0f constant:0.0f]];
         
         _bottomButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        if (self.numPadType == THPinNumPadTypeCustom) {
+            _bottomButton.hidden = YES;
+        }
         _bottomButton.translatesAutoresizingMaskIntoConstraints = NO;
         _bottomButton.titleLabel.font = [UIFont systemFontOfSize:16.0f];
         _bottomButton.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
@@ -250,6 +255,10 @@ typedef void (^THPinAnimationCompletionBlock)(void);
         [self.bottomButton removeTarget:self action:@selector(cancel:) forControlEvents:UIControlEventTouchUpInside];
         [self.bottomButton addTarget:self action:@selector(delete:) forControlEvents:UIControlEventTouchUpInside];
     }
+    
+    if (self.numPadType == THPinNumPadTypeCustom) {
+        self.bottomButton.hidden = YES;
+    }
 }
 
 #pragma mark - User Interaction
@@ -270,6 +279,15 @@ typedef void (^THPinAnimationCompletionBlock)(void);
 }
 
 #pragma mark - THPinNumPadViewDelegate
+- (void)cancelTappedFor:(THPinNumPadView *)pinNumPadView
+{
+    [self cancel:nil];
+}
+
+- (void)deleteTappedFor:(THPinNumPadView *)pinNumPadView
+{
+    [self delete:nil];
+}
 
 - (void)pinNumPadView:(THPinNumPadView *)pinNumPadView numberTapped:(NSUInteger)number
 {
