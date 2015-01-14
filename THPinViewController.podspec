@@ -20,4 +20,5 @@ Pod::Spec.new do |s|
                     "https://raw.githubusercontent.com/antiraum/THPinViewController/master/THPinViewController_iphone_3-5inch.png",
                     "https://raw.githubusercontent.com/antiraum/THPinViewController/master/THPinViewController_ipad.png",
 					"https://raw.githubusercontent.com/antiraum/THPinViewController/master/THPinViewController_translucent_background.png" ]
+  s.resource_bundle = { 'THPinViewController-iOS' => 'THPinViewController/Resources/*' }
 end
