@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1689B9EC1A672B0500B59226 /* delete_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1689B9E91A672B0500B59226 /* delete_icon.png */; };
+		1689B9ED1A672B0500B59226 /* delete_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1689B9EA1A672B0500B59226 /* delete_icon@2x.png */; };
+		1689B9EE1A672B0500B59226 /* delete_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1689B9EB1A672B0500B59226 /* delete_icon@3x.png */; };
 		E222D1FD1902F00900DD1762 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E222D1FB1902F00900DD1762 /* Main.storyboard */; };
 		E25C5FBF192C993F0073E612 /* confidential@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E25C5FBE192C993F0073E612 /* confidential@2x.png */; };
 		E25C5FC5192CBF010073E612 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = E25C5FC4192CBF010073E612 /* UIImage+ImageEffects.m */; };
@@ -43,6 +46,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1689B9E91A672B0500B59226 /* delete_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete_icon.png; sourceTree = "<group>"; };
+		1689B9EA1A672B0500B59226 /* delete_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "delete_icon@2x.png"; sourceTree = "<group>"; };
+		1689B9EB1A672B0500B59226 /* delete_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "delete_icon@3x.png"; sourceTree = "<group>"; };
 		AEF8C6EA19ACAD89003E8C57 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/THPinViewController.strings; sourceTree = "<group>"; };
 		E222D1FC1902F00900DD1762 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E24B76CC195D674F00705E35 /* THPinViewControllerMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THPinViewControllerMacros.h; sourceTree = "<group>"; };
@@ -204,6 +210,9 @@
 				E24B76CC195D674F00705E35 /* THPinViewControllerMacros.h */,
 				E25C5FC3192CBF010073E612 /* UIImage+ImageEffects.h */,
 				E25C5FC4192CBF010073E612 /* UIImage+ImageEffects.m */,
+				1689B9E91A672B0500B59226 /* delete_icon.png */,
+				1689B9EA1A672B0500B59226 /* delete_icon@2x.png */,
+				1689B9EB1A672B0500B59226 /* delete_icon@3x.png */,
 			);
 			path = THPinViewController;
 			sourceTree = "<group>";
@@ -290,6 +299,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				E222D1FD1902F00900DD1762 /* Main.storyboard in Resources */,
+				1689B9EC1A672B0500B59226 /* delete_icon.png in Resources */,
+				1689B9ED1A672B0500B59226 /* delete_icon@2x.png in Resources */,
+				1689B9EE1A672B0500B59226 /* delete_icon@3x.png in Resources */,
 				E26BEDD91908EB6B000B40A0 /* THPinViewController.strings in Resources */,
 				E25C5FBF192C993F0073E612 /* confidential@2x.png in Resources */,
 				E26048BA19027D01006ACBC7 /* Images.xcassets in Resources */,
