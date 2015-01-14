@@ -94,7 +94,17 @@
             
             // delete
             if (row == 3 && col == 2 && self.numPadType == THPinNumPadTypeCustom) {
-                button = [[THPinNumButton alloc] initWithImage:[UIImage imageNamed:@"delete_icon"]];
+                
+                // TO DO: can be improved i guess
+                UIImage *image = [UIImage imageNamed:@"delete_icon"];
+
+                if ([[NSBundle mainBundle] URLForResource:@"THPinViewController-iOS" withExtension:@"bundle"]) {
+                    NSBundle *bundle = [NSBundle bundleWithURL:[[NSBundle mainBundle] URLForResource:@"THPinViewController-iOS" withExtension:@"bundle"]];
+                    NSString *imagePath = [bundle pathForResource:@"delete_icon" ofType:@"png"];
+                    image = [UIImage imageWithContentsOfFile:imagePath];
+                }
+                
+                button = [[THPinNumButton alloc] initWithImage:image];
                 [button addTarget:self action:@selector(deleteButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
             }
             
